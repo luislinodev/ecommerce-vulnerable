@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %}Crear cuenta{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="block-background">
+    <div class="login-container">
+        <h2>Crear cuenta</h2>
+
+        <form method="POST" action="{% url 'account_signup' %}">
+            {% csrf_token %}
+
+            <label for="id_email">Correo</label>
+            <input type="email" name="email" id="id_email" placeholder="nombre@email.com"
+                   value="{{ form.email.value|default:'' }}" required>
+
+            <label for="id_username">Nombre de usuario</label>
+            <input type="text" name="username" id="id_username" placeholder="usuario"
+                   value="{{ form.username.value|default:'' }}" required>
+
+            <label for="id_password1">Contraseña</label>
+            <input type="password" name="password1" id="id_password1" placeholder="contraseña" required>
+
+            <label for="id_password2">Confirmar contraseña</label>
+            <input type="password" name="password2" id="id_password2" placeholder="confirma tu contraseña" required>
+
+            <button type="submit" class="login-button">Registrarme</button>
+
+            {% if form.errors %}
+                <ul class="form-errors">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </form>
+
+        <div class="divider"><span>o</span></div>
+
+        <a href="{% provider_login_url 'google' %}" class="google-button">
+            <img src="https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748491820/google-icon_u6neby.svg" alt="Google Icon">
+            Registrarse con Google
+        </a>
+
+        <div class="links">
+            <p>¿Ya tienes una cuenta? <a href="{% url 'account_login' %}">Inicia sesión aquí</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

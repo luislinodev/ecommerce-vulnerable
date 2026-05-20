@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>🛒 Checkout</h2>
+
+<form method="POST">
+  {% csrf_token %}
+
+  <h4>Productos seleccionados:</h4>
+  <ul>
+    {% for item in cart_items %}
+      <li>{{ item.product.name }} (x{{ item.quantity }}) - S/ {{ item.product.price|floatformat:2 }}</li>
+    {% endfor %}
+  </ul>
+
+  <p>Subtotal: S/ {{ product_total|floatformat:2 }}</p>
+  <p>IGV (18%): S/ {{ igv|floatformat:2 }}</p>
+  <p>Transporte: S/ ... (calculado con la ubicación)</p>
+  <hr>
+  <p><strong>Total estimado: S/ ...</strong></p>
+
+  <label>📅 Fecha del evento:</label><br>
+  <input type="date" name="event_date" required><br><br>
+
+  <label>📍 Dirección del evento:</label><br>
+  <input type="text" name="address_text" id="address" placeholder="Ej. Av. Ejemplo 123" required><br><br>
+
+  <div id="map" style="height: 300px;"></div>
+  <input type="hidden" name="lat" id="lat">
+  <input type="hidden" name="lng" id="lng"><br>
+
+  <label>📞 Teléfono:</label><br>
+  <input type="text" name="phone" required><br><br>
+
+  <label>💬 Comentarios (opcional):</label><br>
+  <textarea name="comments" rows="3"></textarea><br><br>
+
+  <label>
+    <input type="checkbox" name="accept_terms" required>
+    ✅ Acepto los términos y condiciones
+  </label><br><br>
+
+  <button type="submit">✅ Confirmar y ver resumen</button>
+</form>
+
+<!-- Leaflet.js CDN -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script>
+  const map = L.map('map').setView([-16.409047, -71.537451], 13); // Arequipa como vista inicial
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
+  }).addTo(map);
+
+  let marker = L.marker([-16.409047, -71.537451], { draggable: true }).addTo(map);
+
+  function updateLatLngFields(position) {
+    document.getElementById('lat').value = position.lat;
+    document.getElementById('lng').value = position.lng;
+  }
+
+  updateLatLngFields(marker.getLatLng());
+
+  marker.on('dragend', function(e) {
+    updateLatLngFields(marker.getLatLng());
+  });
+
+  map.on('click', function(e) {
+    marker.setLatLng(e.latlng);
+    updateLatLngFields(e.latlng);
+  });
+</script>
+{% endblock %}

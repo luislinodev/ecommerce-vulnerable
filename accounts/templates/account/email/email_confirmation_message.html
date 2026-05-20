@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            padding: 30px;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            margin-top: 20px;
+            background-color: #ff4081;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+        .footer {
+            font-size: 0.9em;
+            margin-top: 30px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>¡Bienvenido a FLE!</h2>
+        <p>Gracias por registrarte. Antes de empezar a reservar nuestros accesorios para fiestas, necesitamos que confirmes tu correo electrónico.</p>
+
+        <p>Haz clic en el botón de abajo para verificar tu cuenta:</p>
+
+        <a href="{{ activate_url }}" class="button">Confirmar correo</a>
+
+        <p class="footer">Si tú no creaste esta cuenta, puedes ignorar este mensaje.</p>
+    </div>
+</body>
+</html>

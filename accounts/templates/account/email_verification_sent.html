@@ -1,0 +1,32 @@
+{% comment %} {% extends "base.html" %}
+{% load static %}
+
+{% block title %}Verifica tu correo electrónico{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}?v=1.4">
+{% endblock %}
+
+{% block content %}
+<div class="block-background">
+    <div class="login-container">
+        <h2>¡Confirma tu correo para continuar!</h2>
+
+        <p class="description">
+            Te hemos enviado un correo con un enlace para verificar tu cuenta.  
+            <br><br>
+            Revisa tu bandeja de entrada o tu carpeta de spam.
+        </p>
+
+        <p class="description">
+            Una vez que confirmes tu correo, podrás iniciar sesión y comenzar a reservar accesorios para tus fiestas.
+        </p>
+
+        <div class="links">
+            <p><a href="{% url 'account_login' %}">Volver a iniciar sesión</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %} {% endcomment %}
+
+<h1>ESTO ES UNA PRUEBA DE PLANTILLA PERSONALIZADA</h1>

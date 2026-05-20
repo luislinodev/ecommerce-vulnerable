@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Verifica tu correo{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="block-background">
+  <div class="login-container">
+    <h2>Verifica tu dirección de correo electrónico</h2>
+    <p>Te hemos enviado un correo electrónico a <strong>{{ email }}</strong> con un enlace para verificar tu cuenta.</p>
+    <p>Si no ves el mensaje en tu bandeja de entrada, revisa la carpeta de correo no deseado.</p>
+    <p>¿No lo recibiste? <a href="{% url 'account_email' %}">Haz clic aquí para reenviarlo</a>.</p>
+  </div>
+</div>
+{% endblock %}

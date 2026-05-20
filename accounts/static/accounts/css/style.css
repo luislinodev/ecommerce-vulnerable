@@ -1,0 +1,160 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+.block-background {
+  background-color: #F9F6F5;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* margin-top: 40px; */
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.login-container {
+  width: 100%;
+  max-width: 360px;
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+h2 {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 5px;
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.login-button {
+  width: 100%;
+  background-color: #333333;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-top: 20px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #787878;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 30px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: #ccc;
+}
+
+.divider span {
+  padding: 0 10px;
+  color: #888;
+  background-color: white;
+}
+
+.google-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-decoration: none;
+  color: black;
+  border-radius: 6px;
+}
+
+.google-button img {
+  width: 20px;
+  margin-right: 10px;
+}
+
+.links {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.links a {
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.form-errors {
+  padding: 8px 16px 8px 32px;
+  background-color: #ffe6e6;
+  border: 1px solid #ff4d4d;
+  color: #cc0000;
+  margin-top: 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 20px;
+  }
+
+  .login-container h2 {
+    font-size: 1.4rem;
+  }
+
+  .login-button,
+  .google-button {
+    font-size: 0.95rem;
+    padding: 12px;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .divider span {
+    font-size: 0.9rem;
+  }
+
+  .links {
+    font-size: 0.85rem;
+  }
+}

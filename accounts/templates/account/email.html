@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}Email{% endblock %}
+
+{% block head_title %}{% trans "Correo electrónico" %}{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/email.css' %}?v=1.5">
+{% endblock %}
+
+{% block content %}
+
+
+<div class="block-background">
+  <div class="email-container">
+    <h2>{% trans "Dirección de correo electrónico" %}</h2>
+
+    <p>{% trans "Tu correo electrónico principal es:" %}</p>
+
+    <p class="email-info">{{ user.email }}</p>
+
+    <p class="verified">{% trans "Verificado" %}</p>
+
+    <a class="login-button" href="{% url 'profile' %}">Ir a mi perfil</a>
+
+    <div class="email-footer">
+      {% trans "Si necesitas actualizar tu correo electrónico, contactá al soporte o actualizalo desde tu perfil." %}
+    </div>
+  </div>
+</div>
+{% endblock %}

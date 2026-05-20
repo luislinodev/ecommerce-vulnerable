@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contáctanos{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'pages/css/contacto.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="contact-section">
+  <h2 class="section-title">¿Tienes alguna consulta?</h2>
+  <p class="contact-subtitle">Estamos encantados de ayudarte. Puedes contactarnos por los siguientes medios:</p>
+
+  <div class="contact-info">
+    <div class="contact-card">
+      <h3>📱 WhatsApp</h3>
+      <p><a href="https://wa.me/51912345678" target="_blank">+51 912 345 678</a></p>
+    </div>
+
+    <div class="contact-card">
+      <h3>📧 Correo electrónico</h3>
+      <p><a href="mailto:contacto@fle.pe">contacto@fle.pe</a></p>
+    </div>
+
+    <div class="contact-card">
+      <h3>📍 Dirección</h3>
+      <p>Av. Ejemplo 123, Arequipa, Perú</p>
+    </div>
+  </div>
+
+  <div class="map-section">
+    <h3 class="map-title">Ubicación en el mapa</h3>
+    <div id="map" style="height: 400px; width: 100%; border: 2px solid #ccc; border-radius: 12px;"></div>
+  </div>
+</div>
+
+<!-- Leaflet Map -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script>
+  var map = L.map('map').setView([-16.3989, -71.5350], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(map);
+  L.marker([-16.3989, -71.5350]).addTo(map).bindPopup("Nuestra ubicación").openPopup();
+</script>
+{% endblock %}

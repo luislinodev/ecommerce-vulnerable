@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %}Inicia sesión{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="block-background">
+    <div class="login-container">
+    <h2>Inicia sesión</h2>
+
+    <form method="POST" action="{% url 'account_login' %}">
+        {% csrf_token %}
+        <label for="id_login">Correo</label>
+        <input type="email" name="login" id="id_login" placeholder="nombre@email.com" required>
+
+        <label for="id_password">Contraseña</label>
+        <input type="password" name="password" id="id_password" placeholder="contraseña" required>
+
+        <button type="submit" class="login-button">Ingresar</button>
+    </form>
+
+    {% if form.errors %}
+        <ul class="form-errors">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class="divider"><span>o</span></div>
+
+    <a href="{% provider_login_url 'google' %}" class="google-button">
+        <img src="https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748491820/google-icon_u6neby.svg" alt="Google Icon">
+        Continuar con Google
+    </a>
+
+    <div class="links">
+        <p>¿Eres nuevo? <a href="{% url 'account_signup' %}">Regístrate</a></p>
+        <p><a href="{% url 'account_reset_password' %}">¿Olvidaste tu contraseña?</a></p>
+    </div>
+    </div>
+</div>
+
+{% endblock %}

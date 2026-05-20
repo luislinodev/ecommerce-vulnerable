@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Confirmación de email{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/email_confirm.css' %}?v=1.4">
+{% endblock %}
+
+{% block content %}
+<div class="confirmation-section">
+  <div class="confirmation-card">
+    {% if confirmation %}
+      <h2 class="confirmation-title">¡Correo confirmado con éxito!</h2>
+      <p class="confirmation-subtitle">Gracias por verificar tu dirección de correo electrónico.</p>
+      <div class="confirmation-actions">
+        <a class="confirmation-button" href="{% url 'account_login' %}">Iniciar sesión</a>
+      </div>
+    {% else %}
+      <h2 class="confirmation-title error">Enlace inválido o caducado</h2>
+      <p class="confirmation-subtitle">Este enlace de confirmación ya no es válido. Puedes solicitar uno nuevo.</p>
+      <div class="confirmation-actions">
+        <a class="confirmation-button secondary" href="{% url 'account_email' %}">Reenviar correo de confirmación</a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

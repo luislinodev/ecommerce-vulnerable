@@ -1,0 +1,116 @@
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* ocupa toda la pantalla */
+  background-image: url('https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748553544/music-7238254_1920_dldrgx.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.background-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.overlay-text {
+  text-align: center;
+  color: white;
+  padding: clamp(1rem, 5vw, 3rem);
+  border-radius: 1rem;
+  max-width: 90%;
+  margin-bottom: 70px;
+}
+
+
+.overlay-image {
+  max-width: 200px;
+  width: 80%;
+  height: auto;
+  margin-bottom: 20px;
+}
+
+.overlay-title {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 5px black;
+}
+
+.overlay-subtitle {
+  font-size: clamp(0.9rem, 2vw, 1.5rem);
+  font-weight: normal;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 3px black;
+}
+
+.overlay-button {
+  display: inline-block;
+  background-color: #ff4081;
+  color: white;
+  font-weight: bold;
+  padding: 12px 24px;
+  font-size: clamp(0.9rem, 2vw, 1.5rem);;
+  text-decoration: none;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  transition: background-color 0.3s ease;
+}
+
+.overlay-button:hover {
+  background-color: #e73370;
+}
+
+
+
+
+
+
+
+
+.info-section {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #F9F6F5;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 30px;
+  color: #ff4081;
+}
+
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.info-card {
+  background-color: #FFFCFB;
+  border-radius: 20px;
+  padding: 20px;
+  width: 250px;               /* tamaño fijo */
+  height: 130px;              /* altura fija */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>🛒 Tu carrito de alquiler</h2>
+
+{% if cart.items.all %}
+  <table>
+    <thead>
+      <tr>
+        <th>Producto</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Total</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in cart.items.all %}
+        <tr>
+          <td>{{ item.product.name }}</td>
+          <td>S/ {{ item.product.price }}</td>
+          <td>
+            <form method="POST" action="{% url 'update_cart_item' item.id %}">
+              {% csrf_token %}
+              <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
+              <button type="submit">Actualizar</button>
+            </form>
+          </td>
+          <td>S/ {{ item.total_price }}</td>
+          <td>
+            <form method="POST" action="{% url 'remove_from_cart' item.id %}">
+              {% csrf_token %}
+              <button type="submit">❌ Eliminar</button>
+            </form>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p><strong>Subtotal:</strong> S/ {{ cart.total_price }}</p>
+  <a href="{% url 'checkout' %}" class="btn btn-primary">Continuar al checkout</a>
+  <a href="{% url 'products' %}">Volver al catálogo</a>
+
+{% else %}
+  <p>Tu carrito está vacío.</p>
+  <a href="{% url 'products' %}">Volver al catálogo</a>
+{% endif %}
+{% endblock %}

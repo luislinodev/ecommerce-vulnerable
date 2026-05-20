@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Cerrar sesión{% endblock %}
+ 
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="block-background">
+    <div class="login-container">
+        <h2>¿Estás seguro de que quieres cerrar sesión?</h2>
+
+        <p>Estás a punto de cerrar sesión de tu cuenta.</p>
+
+        <form method="post" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="login-button">Cerrar sesión</button>
+        </form>
+
+        <div class="links" style="margin-top: 1rem;">
+            <a href="{% url 'account_login' %}">Cancelar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

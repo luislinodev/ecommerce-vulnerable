@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Fly Little Events{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'pages/css/home.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="image-container">
+  {# <img src="https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748553544/music-7238254_1920_dldrgx.jpg" alt="Fondo" class="background-image"> #}
+  <div class="overlay-text">
+    <img src="https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748553498/logo_alquilerdibujo_ajewfc.png" alt="Logo" class="overlay-image">
+    <p class="overlay-title">¡Creamos el ambiente perfecto para tu fiesta!</p>
+    <p class="overlay-subtitle">Alquiler y armado de decoración para eventos inolvidables</p>
+    <a href="{% url 'products' %}" class="overlay-button">Ver catálogo</a>
+  </div>
+</div>
+
+<section class="info-section">
+  <h2 class="section-title">¿Qué hacemos?</h2>
+  <div class="card-container">
+    <div class="info-card">🎈 Alquiler de accesorios</div>
+    <div class="info-card">🎉 Armado y decoración</div>
+    <div class="info-card">🚚 Entrega y retiro</div>
+  </div>
+
+  <h2 class="section-title">¿Cómo funciona?</h2>
+  <div class="card-container">
+    <div class="info-card">1. Elige tus accesorios</div>
+    <div class="info-card">2. Coordinamos tu evento</div>
+    <div class="info-card">3. ¡Nosotros armamos todo!</div>
+  </div>
+
+  <h2 class="section-title">¿Listo para tu evento o fiesta?</h2>
+  <a href="{% url 'contacto' %}" class="overlay-button">Solicita asesoramiento</a>
+</section>
+{% endblock %}

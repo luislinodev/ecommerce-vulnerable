@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicia sesión{% endblock %}
+ 
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="block-background">
+    <div class="login-container">
+        <h2>Inicio de sesión mediante Google</h2>
+
+        <p>Estás a punto de iniciar sesión con tu cuenta de Google.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="login-button">Continuar</button>
+        </form>
+
+        <div class="links" style="margin-top: 1rem;">
+            <a href="{% url 'account_login' %}">Cancelar</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

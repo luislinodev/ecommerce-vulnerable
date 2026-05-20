@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>📋 Resumen del Pedido</h2>
+
+<p><strong>Cliente:</strong> {{ order.user.get_full_name|default:order.user.username }}</p>
+<p><strong>Fecha del evento:</strong> {{ order.event_date }}</p>
+<p><strong>Dirección del evento:</strong> {{ order.address_text }}</p>
+<p><strong>Coordenadas:</strong> ({{ order.lat }}, {{ order.lng }})</p>
+<p><strong>Teléfono:</strong> {{ order.phone }}</p>
+{% if order.comments %}
+  <p><strong>Comentarios:</strong> {{ order.comments }}</p>
+{% endif %}
+<p><strong>Estado:</strong> {{ order.status }}</p>
+<hr>
+
+<h4>🛍️ Productos:</h4>
+<ul>
+  {% for item in order.orderitem_set.all %}
+    <li>{{ item.product.name }} (x{{ item.quantity }}) - Subtotal: S/ {{ item.subtotal|floatformat:2 }}</li>
+  {% endfor %}
+</ul>
+
+<p><strong>Subtotal:</strong> S/ {{ order.product_total|floatformat:2 }}</p>
+<p><strong>IGV (18%):</strong> S/ {{ order.igv|floatformat:2 }}</p>
+<p><strong>Transporte:</strong> S/ {{ order.transport_cost|floatformat:2 }}</p>
+<hr>
+<p><strong>Total:</strong> S/ {{ order.total|floatformat:2 }}</p>
+
+<a href="{% url 'payments' %}?order_uuid={{ order.uuid }}">Pagar</a>
+
+<form method="post" action="{% url 'cancel_order_view' order.id %}">
+  {% csrf_token %}
+  {% if order.status == 'Pendiente' %}
+    <button type="submit" onclick="return confirm('¿Seguro que quieres cancelar la orden?')">❌ Cancelar orden</button>
+  {% endif %}
+</form>
+
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Términos y Condiciones{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'pages/css/tyc.css' %}?v=1.3">
+{% endblock %}
+
+{% block content %}
+<section class="tyc-container">
+  <h1 class="section-title">Términos y Condiciones de Uso</h1>
+
+  <p class="section-content">Bienvenido a <span class="text-bold">FLE</span>, la plataforma especializada en el alquiler y armado de accesorios para fiestas y eventos. Al acceder, navegar y utilizar nuestros servicios digitales o físicos, declaras haber leído, entendido y aceptado los siguientes Términos y Condiciones. Estos regulan la relación entre tú, como cliente, y nosotros como proveedores del servicio.</p>
+
+  <h2 class="section-subtitle">1. Definiciones</h2>
+  <ul class="section-content">
+    <li><span class="text-bold">Cliente:</span> Cualquier persona natural mayor de edad o persona jurídica que accede a nuestros servicios, realiza una reserva o contrata algún producto o accesorio mediante la plataforma FLE.</li>
+    <li><span class="text-bold">Accesorios:</span> Conjunto de artículos que pueden ser alquilados para ambientar, decorar o equipar un evento. Esto incluye pero no se limita a mobiliario (mesas, sillas, barras), decoración (luces, backings, flores artificiales), estructuras (toldos, escenarios), y elementos personalizados.</li>
+    <li><span class="text-bold">Servicio:</span> Hace referencia al conjunto de acciones que realiza FLE, incluyendo la coordinación, transporte, entrega, instalación (armado), supervisión, desinstalación (desmontaje) y recogida de los accesorios alquilados.</li>
+  </ul>
+
+  <h2 class="section-subtitle">2. Reservas y Pagos</h2>
+  <ul class="section-content">
+    <li>Las reservas deben realizarse con un mínimo de 48 horas de anticipación respecto a la fecha del evento. En fechas de alta demanda (feriados, fines de semana largos, campañas especiales), se recomienda reservar con mayor anticipación.</li>
+    <li>El proceso de reserva no se considerará completo hasta que se haya recibido el pago total a través de nuestra pasarela de pago segura. FLE no asegura disponibilidad de productos hasta que la reserva esté confirmada.</li>
+    <li>Los precios publicados en nuestra plataforma incluyen el Impuesto General a las Ventas (IGV) y los costos de instalación básica, salvo que expresamente se indique lo contrario en la descripción del producto o servicio.</li>
+    <li>En caso de requerir servicios adicionales (como personal en sitio, instalación fuera de horarios regulares, zonas de difícil acceso, etc.), estos se cotizarán y facturarán por separado.</li>
+  </ul>
+
+  <h2 class="section-subtitle">3. Cancelaciones y Reembolsos</h2>
+  <ul class="section-content">
+    <li>Las cancelaciones deben solicitarse por correo electrónico o a través de nuestro formulario de contacto.</li>
+    <li>Si la cancelación se realiza con más de 72 horas de anticipación respecto a la fecha del evento, se realizará un reembolso completo del monto pagado.</li>
+    <li>Si la cancelación ocurre entre 24 y 72 horas antes del evento, el cliente recibirá un reembolso equivalente al 50% del valor total de la reserva.</li>
+    <li>No se aceptan cancelaciones con menos de 24 horas de anticipación. En este caso, no se realizará reembolso alguno.</li>
+    <li>Los reembolsos se procesarán en un plazo máximo de 7 días hábiles desde la confirmación de cancelación, y se realizarán mediante el mismo método de pago utilizado.</li>
+  </ul>
+
+  <h2 class="section-subtitle">4. Uso Responsable de los Accesorios</h2>
+  <ul class="section-content">
+    <li>El cliente se compromete a utilizar los accesorios alquilados con responsabilidad y cuidado, respetando su propósito y manipulación adecuada durante todo el período de uso.</li>
+    <li>En caso de pérdida, daño, robo o deterioro por mal uso, se aplicarán cargos adicionales equivalentes al valor de reposición o reparación del accesorio afectado. Estos montos serán determinados por FLE y comunicados al cliente.</li>
+    <li>No está permitido subarrendar, revender ni ceder el uso de los productos alquilados a terceros sin la autorización expresa de FLE.</li>
+  </ul>
+
+  <h2 class="section-subtitle">5. Entrega, Instalación y Recogida</h2>
+  <ul class="section-content">
+    <li>La entrega de los accesorios se realizará en la dirección proporcionada por el cliente al momento de hacer la reserva. El cliente debe verificar que la dirección esté correctamente escrita y que sea accesible para vehículos de transporte.</li>
+    <li>El cliente deberá asegurarse de que haya una persona mayor de edad presente en el lugar, en el horario previamente acordado, para recibir los productos y firmar el acta de entrega.</li>
+    <li>En caso de ausencia del cliente o de una persona responsable en el momento de entrega o recogida, FLE podrá reprogramar el servicio con un cargo adicional por segundo traslado.</li>
+    <li>El cliente debe garantizar condiciones mínimas de seguridad y accesibilidad para la instalación (espacio libre, superficies niveladas, etc.). Cualquier contratiempo en el sitio será evaluado por nuestro equipo para asegurar la viabilidad del servicio.</li>
+  </ul>
+
+  <h2 class="section-subtitle">6. Modificaciones del Servicio</h2>
+  <ul class="section-content">
+    <li>FLE se reserva el derecho de modificar, suspender o eliminar temporal o permanentemente los términos y condiciones, así como cualquier aspecto del servicio, en cualquier momento y sin previo aviso, cuando lo considere necesario.</li>
+    <li>Las modificaciones serán publicadas en esta sección del sitio web y entrarán en vigencia desde su publicación. Se recomienda a los clientes revisar periódicamente estos términos.</li>
+    <li>El uso continuado de los servicios después de la publicación de los cambios se interpretará como aceptación de dichos cambios.</li>
+  </ul>
+
+  <h2 class="section-subtitle">7. Protección de Datos y Privacidad</h2>
+  <ul class="section-content">
+    <li>FLE se compromete a proteger los datos personales de los usuarios conforme a la legislación vigente sobre protección de datos.</li>
+    <li>La información proporcionada será utilizada exclusivamente para la gestión de reservas, contacto con el cliente, emisión de comprobantes y envío de comunicaciones relacionadas con el servicio.</li>
+    <li>Los datos no serán compartidos con terceros, salvo que sea estrictamente necesario para el cumplimiento del servicio contratado o requerido por ley.</li>
+  </ul>
+
+  <h2 class="section-subtitle">8. Contacto y Atención al Cliente</h2>
+  <p class="section-content">Si tienes alguna duda, comentario o reclamo relacionado con estos términos o con nuestros servicios en general, puedes comunicarte con nuestro equipo de atención al cliente a través del correo electrónico <a href="mailto:contacto@fle.com">contacto@fle.com</a>. También puedes usar el formulario de contacto disponible en nuestra plataforma.</p>
+</section>
+{% endblock %}
