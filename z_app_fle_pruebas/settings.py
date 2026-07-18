@@ -28,7 +28,10 @@ except ImportError:
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # VULNERABLE: Hardcoded secret key - weak and exposed
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-a#%@9j5k3l2m1n0p9o8i7u6y5t4r3e2w1q0z9x8c7v6b5n4m3l2k1j0h9g8f7e6d5")
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-a#%@9j5k3l2m1n0p9o8i7u6y5t4r3e2w1q0z9x8c7v6b5n4m3l2k1j0h9g8f7e6d5",
+)
 # VULNERABLE: DEBUG=True exposes sensitive information in error pages
 DEBUG = os.environ.get("DJANGO_DEBUG", "True") == "True"
 # VULNERABLE: Wildcard in ALLOWED_HOSTS
@@ -63,6 +66,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -76,7 +80,7 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 # VULNERABLE: Credentials allowed with wildcard origins - high impact
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGINS = ["*"]
+# CORS_ALLOWED_ORIGINS = ["*"]
 CORS_ALLOW_HEADERS = [
     "accept",
     "accept-encoding",
@@ -149,8 +153,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 STATIC_URL = "/static/"
+
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
