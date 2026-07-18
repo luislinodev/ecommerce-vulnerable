@@ -1,74 +1,153 @@
-{% extends 'base.html' %}
-{% block content %}
-<h2>🛒 Checkout</h2>
+{% extends 'base.html' %} {% block title %}Checkout{% endblock %} {% block content %}
 
-<form method="POST">
-  {% csrf_token %}
+<div class="container py-5">
+	<h2 class="fw-bold mb-4">🛒 Checkout</h2>
 
-  <h4>Productos seleccionados:</h4>
-  <ul>
-    {% for item in cart_items %}
-      <li>{{ item.product.name }} (x{{ item.quantity }}) - S/ {{ item.product.price|floatformat:2 }}</li>
-    {% endfor %}
-  </ul>
+	<form method="POST">
+		{% csrf_token %}
 
-  <p>Subtotal: S/ {{ product_total|floatformat:2 }}</p>
-  <p>IGV (18%): S/ {{ igv|floatformat:2 }}</p>
-  <p>Transporte: S/ ... (calculado con la ubicación)</p>
-  <hr>
-  <p><strong>Total estimado: S/ ...</strong></p>
+		<div class="row g-4">
+			<!-- Formulario -->
+			<div class="col-lg-8">
+				<div class="card shadow-sm mb-4">
+					<div class="card-header bg-dark text-white">Información del evento</div>
 
-  <label>📅 Fecha del evento:</label><br>
-  <input type="date" name="event_date" required><br><br>
+					<div class="card-body">
+						<div class="mb-3">
+							<label class="form-label"> 📅 Fecha del evento </label>
 
-  <label>📍 Dirección del evento:</label><br>
-  <input type="text" name="address_text" id="address" placeholder="Ej. Av. Ejemplo 123" required><br><br>
+							<input type="date" name="event_date" class="form-control" required />
+						</div>
 
-  <div id="map" style="height: 300px;"></div>
-  <input type="hidden" name="lat" id="lat">
-  <input type="hidden" name="lng" id="lng"><br>
+						{% comment %}
+						<div class="mb-3">
+							<label class="form-label"> 📍 Dirección del evento </label>
 
-  <label>📞 Teléfono:</label><br>
-  <input type="text" name="phone" required><br><br>
+							<input
+								type="text"
+								name="address_text"
+								id="address"
+								class="form-control"
+								placeholder="Ej. Av. Ejemplo 123"
+								required
+							/>
+						</div>
+						{% endcomment %}
+						<div id="map" class="rounded border mb-3" style="height: 350px"></div>
 
-  <label>💬 Comentarios (opcional):</label><br>
-  <textarea name="comments" rows="3"></textarea><br><br>
+						<div class="form-text">
+							Haz clic en el mapa o arrastra el marcador para indicar la ubicación exacta del evento.
+						</div>
 
-  <label>
-    <input type="checkbox" name="accept_terms" required>
-    ✅ Acepto los términos y condiciones
-  </label><br><br>
+						<input type="hidden" name="lat" id="lat" />
+						<input type="hidden" name="lng" id="lng" />
 
-  <button type="submit">✅ Confirmar y ver resumen</button>
-</form>
+						<div class="mb-3">
+							<label class="form-label"> 📞 Teléfono </label>
 
-<!-- Leaflet.js CDN -->
+							<input type="text" name="phone" class="form-control" required />
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label"> 💬 Comentarios </label>
+
+							<textarea class="form-control" rows="4" name="comments"></textarea>
+						</div>
+
+						<div class="form-check">
+							<input class="form-check-input" type="checkbox" name="accept_terms" id="terms" required />
+
+							<label class="form-check-label" for="terms"> Acepto los términos y condiciones </label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Resumen -->
+			<div class="col-lg-4">
+				<div class="card shadow-sm">
+					<div class="card-header bg-primary text-white">Resumen del pedido</div>
+
+					<div class="card-body">
+						<ul class="list-group mb-3">
+							{% for item in cart_items %}
+
+							<li class="list-group-item d-flex justify-content-between">
+								<span>
+									{{ item.product.name }}
+									<small class="text-muted"> × {{ item.quantity }} </small>
+								</span>
+
+								<strong> S/ {{ item.product.price|floatformat:2 }} </strong>
+							</li>
+
+							{% endfor %}
+						</ul>
+
+						<div class="d-flex justify-content-between mb-2">
+							<span>Subtotal</span>
+
+							<strong> S/ {{ product_total|floatformat:2 }} </strong>
+						</div>
+
+						<div class="d-flex justify-content-between mb-2">
+							<span>IGV (18%)</span>
+
+							<strong> S/ {{ igv|floatformat:2 }} </strong>
+						</div>
+
+						<div class="d-flex justify-content-between mb-3">
+							<span>Transporte</span>
+
+							<strong> Se calculará </strong>
+						</div>
+
+						<hr />
+
+						<div class="d-flex justify-content-between fs-5">
+							<strong>Total estimado</strong>
+
+							<strong class="text-success"> S/ ... </strong>
+						</div>
+
+						<button type="submit" class="btn btn-success w-100 mt-4">Confirmar y ver resumen</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!-- Leaflet -->
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <script>
-  const map = L.map('map').setView([-16.409047, -71.537451], 13); // Arequipa como vista inicial
+	const map = L.map("map").setView([-16.409047, -71.537451], 13);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap'
-  }).addTo(map);
+	L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+		attribution: "© OpenStreetMap",
+	}).addTo(map);
 
-  let marker = L.marker([-16.409047, -71.537451], { draggable: true }).addTo(map);
+	let marker = L.marker([-16.409047, -71.537451], { draggable: true }).addTo(map);
 
-  function updateLatLngFields(position) {
-    document.getElementById('lat').value = position.lat;
-    document.getElementById('lng').value = position.lng;
-  }
+	function updateLatLngFields(position) {
+		document.getElementById("lat").value = position.lat;
+		document.getElementById("lng").value = position.lng;
+	}
 
-  updateLatLngFields(marker.getLatLng());
+	updateLatLngFields(marker.getLatLng());
 
-  marker.on('dragend', function(e) {
-    updateLatLngFields(marker.getLatLng());
-  });
+	marker.on("dragend", function () {
+		updateLatLngFields(marker.getLatLng());
+	});
 
-  map.on('click', function(e) {
-    marker.setLatLng(e.latlng);
-    updateLatLngFields(e.latlng);
-  });
+	map.on("click", function (e) {
+		marker.setLatLng(e.latlng);
+		updateLatLngFields(e.latlng);
+	});
 </script>
+
 {% endblock %}

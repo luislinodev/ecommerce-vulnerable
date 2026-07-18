@@ -1,38 +1,166 @@
-{% extends 'base.html' %}
-{% block content %}
-<h2>📋 Resumen del Pedido</h2>
+{% extends 'base.html' %} {% block title %}Resumen del Pedido{% endblock %} {% block content %}
 
-<p><strong>Cliente:</strong> {{ order.user.get_full_name|default:order.user.username }}</p>
-<p><strong>Fecha del evento:</strong> {{ order.event_date }}</p>
-<p><strong>Dirección del evento:</strong> {{ order.address_text }}</p>
-<p><strong>Coordenadas:</strong> ({{ order.lat }}, {{ order.lng }})</p>
-<p><strong>Teléfono:</strong> {{ order.phone }}</p>
-{% if order.comments %}
-  <p><strong>Comentarios:</strong> {{ order.comments }}</p>
-{% endif %}
-<p><strong>Estado:</strong> {{ order.status }}</p>
-<hr>
+<div class="container py-5">
+	<div class="mb-4">
+		<h2 class="fw-bold">📋 Resumen del Pedido</h2>
+		<p class="text-muted">Revisa la información antes de realizar el pago.</p>
+	</div>
 
-<h4>🛍️ Productos:</h4>
-<ul>
-  {% for item in order.orderitem_set.all %}
-    <li>{{ item.product.name }} (x{{ item.quantity }}) - Subtotal: S/ {{ item.subtotal|floatformat:2 }}</li>
-  {% endfor %}
-</ul>
+	<div class="row g-4">
+		<!-- Información -->
+		<div class="col-lg-8">
+			<div class="card shadow-sm mb-4">
+				<div class="card-header bg-dark text-white">Información del pedido</div>
 
-<p><strong>Subtotal:</strong> S/ {{ order.product_total|floatformat:2 }}</p>
-<p><strong>IGV (18%):</strong> S/ {{ order.igv|floatformat:2 }}</p>
-<p><strong>Transporte:</strong> S/ {{ order.transport_cost|floatformat:2 }}</p>
-<hr>
-<p><strong>Total:</strong> S/ {{ order.total|floatformat:2 }}</p>
+				<div class="card-body">
+					<div class="row">
+						<div class="col-md-6 mb-3">
+							<strong>Cliente</strong><br />
+							{{ order.user.get_full_name|default:order.user.username }}
+						</div>
 
-<a href="{% url 'payments' %}?order_uuid={{ order.uuid }}">Pagar</a>
+						<div class="col-md-6 mb-3">
+							<strong>Estado</strong><br />
 
-<form method="post" action="{% url 'cancel_order_view' order.id %}">
-  {% csrf_token %}
-  {% if order.status == 'Pendiente' %}
-    <button type="submit" onclick="return confirm('¿Seguro que quieres cancelar la orden?')">❌ Cancelar orden</button>
-  {% endif %}
-</form>
+							{% if order.status == "Pendiente" %}
+							<span class="badge bg-warning text-dark"> {{ order.status }} </span>
+
+							{% elif order.status == "Pagado" %}
+							<span class="badge bg-success"> {{ order.status }} </span>
+
+							{% elif order.status == "Cancelado" %}
+							<span class="badge bg-danger"> {{ order.status }} </span>
+
+							{% else %}
+							<span class="badge bg-secondary"> {{ order.status }} </span>
+							{% endif %}
+						</div>
+
+						<div class="col-md-6 mb-3">
+							<strong>Fecha del evento</strong><br />
+							{{ order.event_date }}
+						</div>
+
+						<div class="col-md-6 mb-3">
+							<strong>Teléfono</strong><br />
+							{{ order.phone }}
+						</div>
+
+						<div class="col-12 mb-3">
+							<strong>Ubicación</strong><br />
+							<a
+								href="https://www.google.com/maps?q={{ order.lat }},{{ order.lng }}"
+								target="_blank"
+								class="btn btn-outline-primary btn-sm mt-2"
+							>
+								📍 Ver ubicación en Google Maps
+							</a>
+						</div>
+
+						{% if order.comments %}
+						<div class="col-12">
+							<strong>Comentarios</strong>
+
+							<div class="alert alert-light mt-2 mb-0">{{ order.comments }}</div>
+						</div>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+
+			<!-- Productos -->
+
+			<div class="card shadow-sm">
+				<div class="card-header bg-primary text-white">🛍️ Productos</div>
+
+				<div class="table-responsive">
+					<table class="table table-hover align-middle mb-0">
+						<thead>
+							<tr>
+								<th>Producto</th>
+								<th class="text-center">Cantidad</th>
+								<th class="text-end">Subtotal</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							{% for item in order.orderitem_set.all %}
+
+							<tr>
+								<td>{{ item.product.name }}</td>
+
+								<td class="text-center">{{ item.quantity }}</td>
+
+								<td class="text-end">S/ {{ item.subtotal|floatformat:2 }}</td>
+							</tr>
+
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- Resumen -->
+
+		<div class="col-lg-4">
+			<div class="card shadow-sm">
+				<div class="card-header bg-success text-white">Total a pagar</div>
+
+				<div class="card-body">
+					<div class="d-flex justify-content-between mb-2">
+						<span>Subtotal</span>
+
+						<strong> S/ {{ order.product_total|floatformat:2 }} </strong>
+					</div>
+
+					<div class="d-flex justify-content-between mb-2">
+						<span>IGV (18%)</span>
+
+						<strong> S/ {{ order.igv|floatformat:2 }} </strong>
+					</div>
+
+					<div class="d-flex justify-content-between mb-3">
+						<span>Transporte</span>
+
+						<strong> S/ {{ order.transport_cost|floatformat:2 }} </strong>
+					</div>
+
+					<hr />
+
+					<div class="d-flex justify-content-between fs-4">
+						<strong>Total</strong>
+
+						<strong class="text-success"> S/ {{ order.total|floatformat:2 }} </strong>
+					</div>
+
+					<div class="d-grid gap-2 mt-4">
+						<a href="{% url 'payments' %}?order_uuid={{ order.uuid }}" class="btn btn-success btn-lg">
+							💳 Proceder al pago
+						</a>
+
+						{% if order.status == "Pendiente" %}
+
+						<form method="post" action="{% url 'cancel_order_view' order.id %}">
+							{% csrf_token %}
+
+							<button
+								type="submit"
+								class="btn btn-outline-danger w-100"
+								onclick="return confirm('¿Seguro que quieres cancelar la orden?');"
+							>
+								Cancelar orden
+							</button>
+						</form>
+
+						{% endif %}
+
+						<a href="{% url 'profile' %}" class="btn btn-outline-secondary"> Volver al perfil </a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 {% endblock %}

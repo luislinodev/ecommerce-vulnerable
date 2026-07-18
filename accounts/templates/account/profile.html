@@ -1,69 +1,122 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %} {% block title %}Mi Perfil{% endblock %} {% block content %}
 
-{% block title %}Mi Perfil{% endblock %}
+<div class="container py-5">
+	<div class="row justify-content-center">
+		<div class="col-lg-10">
+			<div class="card shadow-sm mb-4">
+				<div class="card-body">
+					<h2 class="card-title mb-3">Hola, {{ request.user.first_name|default:request.user.username }}</h2>
 
-{% block extra_head %}
-<link rel="stylesheet" href="{% static 'accounts/css/profile.css' %}">
-{% endblock %}
+					<p class="text-muted">
+						Esta es tu área personal. Desde aquí puedes revisar tu información y administrar tus pedidos.
+					</p>
 
-{% block content %}
-<section class="profile-section" aria-label="Área personal de usuario">
-  <h2 class="section-title">
-    Hola, {{ request.user.first_name|default_if_none:request.user.username|default:request.user.username }}
-  </h2>
-  <p class="profile-subtitle">
-    Esta es tu área personal. Desde aquí puedes revisar tu información y cerrar sesión.
-  </p>
+					<hr />
 
-  <!-- Información básica -->
-  <article class="profile-card" role="region" aria-labelledby="profile-info-title">
-    <h3 id="profile-info-title" class="visually-hidden">Información del usuario</h3>
-    <p><strong>Usuario:</strong> {{ request.user.username }}</p>
-    <p><strong>Correo:</strong> {{ request.user.email }}</p>
-    <p><strong>Fecha de ingreso:</strong> {{ request.user.date_joined|date:"d/m/Y" }}</p>
-    {% if request.user.last_login %}
-      <p><strong>Última sesión:</strong> {{ request.user.last_login|date:"d/m/Y H:i" }}</p>
-    {% endif %}
-  </article>
+					<div class="row">
+						<div class="col-md-6">
+							<p><strong>Usuario:</strong> {{ request.user.username }}</p>
+							<p><strong>Correo:</strong> {{ request.user.email }}</p>
+						</div>
 
-  <!-- Acciones -->
-  <div class="profile-actions">
-    <a href="{% url 'account_logout' %}" class="logout-button" role="button" aria-label="Cerrar sesión">Cerrar sesión</a>
-    <a href="{% url 'account_change_password' %}" class="logout-button" role="button" aria-label="Cambiar contraseña">Cambiar contraseña</a>
-    {% comment %} <a href="{% url 'account_edit' %}" class="edit-profile-button" role="button" aria-label="Editar perfil">Editar perfil</a> {% endcomment %}
-  </div>
+						<div class="col-md-6">
+							<p>
+								<strong>Fecha de registro:</strong>
+								{{ request.user.date_joined|date:"d/m/Y" }}
+							</p>
 
-</section>
-<h2>Mis Órdenes</h2>
-{% if orders %}
-    <ul>
-    {% for order in orders %}
-        <li style="{% if order.status == 'Cancelado' %}text-decoration: line-through; color: gray;{% endif %}">
-            <strong>Orden #{{ order.id }}</strong><br>
-            Fecha del evento: {{ order.event_date }}<br>
-            Estado: {{ order.get_status_display }}<br>
-            Total: S/. {{ order.total }}<br>
-            <ul>
-                {% for item in order.items.all %}
-                    <li>{{ item.quantity }} x {{ item.product.name }} - S/. {{ item.subtotal }}</li>
-                {% endfor %}
-            </ul>
+							{% if request.user.last_login %}
+							<p>
+								<strong>Último acceso:</strong>
+								{{ request.user.last_login|date:"d/m/Y H:i" }}
+							</p>
+							{% endif %}
+						</div>
+					</div>
 
-            {% if order.status == 'Pendiente' %}
-                <form method="get" action="{% url 'order_summary' order.id %}">
-                    <button type="submit">🛒 Reanudar compra</button>
-                </form>
-            {% endif %}
-        </li>
-        <hr>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No tienes órdenes registradas.</p>
-{% endif %}
+					<div class="mt-4 d-flex gap-2 flex-wrap">
+						<a href="{% url 'account_change_password' %}" class="btn btn-outline-primary">
+							Cambiar contraseña
+						</a>
 
+						<a href="{% url 'account_logout' %}" class="btn btn-danger"> Cerrar sesión </a>
+					</div>
+				</div>
+			</div>
 
+			<div class="card shadow-sm">
+				<div class="card-header bg-dark text-white">
+					<h4 class="mb-0">Mis Órdenes</h4>
+				</div>
 
+				<div class="card-body">
+					{% if orders %} {% for order in orders %}
+
+					<div class="card mb-4 border">
+						<div class="card-header d-flex justify-content-between align-items-center">
+							<div>
+								<strong>Orden #{{ order.id }}</strong>
+							</div>
+
+							{% if order.status == "Pendiente" %}
+							<span class="badge bg-warning text-dark"> {{ order.get_status_display }} </span>
+
+							{% elif order.status == "Cancelado" %}
+							<span class="badge bg-danger"> {{ order.get_status_display }} </span>
+
+							{% elif order.status == "Completado" %}
+							<span class="badge bg-success"> {{ order.get_status_display }} </span>
+
+							{% else %}
+							<span class="badge bg-secondary"> {{ order.get_status_display }} </span>
+							{% endif %}
+						</div>
+
+						<div class="card-body">
+							<p>
+								<strong>Fecha del evento:</strong>
+								{{ order.event_date }}
+							</p>
+
+							<p>
+								<strong>Total:</strong>
+
+								<span class="fs-5 fw-bold text-success"> S/. {{ order.total }} </span>
+							</p>
+
+							<h6>Productos</h6>
+
+							<ul class="list-group mb-3">
+								{% for item in order.items.all %}
+
+								<li class="list-group-item d-flex justify-content-between">
+									<span> {{ item.quantity }} × {{ item.product.name }} </span>
+
+									<strong> S/. {{ item.subtotal }} </strong>
+								</li>
+
+								{% endfor %}
+							</ul>
+
+							{% if order.status == "Pendiente" %}
+
+							<form method="get" action="{% url 'order_summary' order.id %}">
+								<button class="btn btn-primary">🛒 Reanudar compra</button>
+							</form>
+
+							{% endif %}
+						</div>
+					</div>
+
+					{% endfor %} {% else %}
+
+					<div class="alert alert-info text-center mb-0">Aún no tienes órdenes registradas.</div>
+
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 {% endblock %}

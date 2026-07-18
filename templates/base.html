@@ -1,122 +1,164 @@
 {% load static %}
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+	<head>
+		<!-- SEO y Open Graph -->
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="Alquiler y armado de decoración para eventos inolvidables. Reserva online con FLE."
+		/>
+		<meta name="robots" content="index, follow" />
+		<meta name="theme-color" content="#ffffff" />
 
-<head>
-  <!-- SEO y Open Graph -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Alquiler y armado de decoración para eventos inolvidables. Reserva online con FLE." />
-  <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#ffffff" />
+		<!-- Open Graph para redes sociales -->
+		<meta property="og:title" content="FLE - Creamos el ambiente perfecto para tu fiesta" />
+		<meta
+			property="og:description"
+			content="Alquiler y armado de decoración para eventos inolvidables. Ver catálogo y reservar online."
+		/>
+		<meta
+			property="og:image"
+			content="https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748553498/logo_alquilerdibujo_ajewfc.png"
+		/>
+		<meta property="og:url" content="https://tusitio.com" />
+		<meta property="og:type" content="website" />
 
-  <!-- Open Graph para redes sociales -->
-  <meta property="og:title" content="FLE - Creamos el ambiente perfecto para tu fiesta" />
-  <meta property="og:description" content="Alquiler y armado de decoración para eventos inolvidables. Ver catálogo y reservar online." />
-  <meta property="og:image" content="https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748553498/logo_alquilerdibujo_ajewfc.png" />
-  <meta property="og:url" content="https://tusitio.com" />
-  <meta property="og:type" content="website" />
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="FLE - Creamos el ambiente perfecto para tu fiesta" />
+		<meta name="twitter:description" content="Alquiler y armado de decoración para eventos inolvidables." />
+		<meta
+			name="twitter:image"
+			content="https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748553498/logo_alquilerdibujo_ajewfc.png"
+		/>
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="FLE - Creamos el ambiente perfecto para tu fiesta" />
-  <meta name="twitter:description" content="Alquiler y armado de decoración para eventos inolvidables." />
-  <meta name="twitter:image" content="https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748553498/logo_alquilerdibujo_ajewfc.png" />
+		<!-- Título -->
+		<title>{% block title %}Fly Little Events{% endblock %}</title>
 
-  <!-- Título -->
-  <title>{% block title %}Fly Little Events{% endblock %}</title>
+		<!-- Favicon -->
+		<link
+			rel="icon"
+			type="image/x-icon"
+			href="https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748553498/logo_alquilerdibujo_ajewfc.png"
+		/>
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/x-icon" href="https://res.cloudinary.com/dcpr6dpx6/image/upload/v1748553498/logo_alquilerdibujo_ajewfc.png" />
+		<!-- Estilos -->
+		<link rel="stylesheet" href="{% static 'css/global.css' %}" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-  <!-- Estilos -->
-  <link rel="stylesheet" href="{% static 'css/global.css' %}" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+		<!-- Scripts -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		{% block extra_head %}{% endblock %}
+	</head>
 
-  {% block extra_head %}{% endblock %}
-</head>
+	<body>
+		<header>
+			<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="{% url 'home' %}" style="color: #ff4d6d; font-weight: bold"
+						>Fly Little Events</a
+					>
+					{% if show_navbar|default:False %}
+					<button
+						class="navbar-toggler"
+						type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'products' %}">Catálogo</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'terminos_y_condiciones' %}">Términos y Condiciones</a>
+							</li>
+							{% if user.is_authenticated %}
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'profile' %}">Perfil</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'view_cart' %}">Carrito</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'account_logout' %}">Cerrar sesión</a>
+							</li>
 
-<body>
-    <header>
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}" style="color: #FF4D6D; font-weight: bold;">Fly Little Events</a>
-            {% if show_navbar|default:False %}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'products' %}">Catálogo</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'terminos_y_condiciones' %}">Términos y Condiciones</a>
-                    </li>
-                    {% if user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' %}">Perfil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'view_cart' %}">Carrito</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'account_logout' %}">Cerrar sesión</a>
-                        </li>
-                        
-                    {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'account_login' %}">Iniciar sesión</a>
-                        </li>
-                    {% endif %}
-                </ul>
-                <form class="fle-search-form" method="get" action="{% url 'products' %}">
-                    <input class="fle-search-input" name="q" type="search" placeholder="Buscar..." aria-label="Buscar" />
-                    <button class="fle-search-btn" type="submit">Buscar</button>
-                </form>
-            </div>
-            {% endif %}
-        </div>
-    </nav>
-</header>
+							{% else %}
+							<li class="nav-item">
+								<a class="nav-link" href="{% url 'account_login' %}">Iniciar sesión</a>
+							</li>
+							{% endif %}
+						</ul>
+						<form class="fle-search-form" method="get" action="{% url 'products' %}">
+							<input
+								class="fle-search-input"
+								name="q"
+								type="search"
+								value="{{ query }}"
+								placeholder="Buscar..."
+								aria-label="Buscar"
+							/>
+							<button class="fle-search-btn" type="submit">Buscar</button>
+						</form>
+					</div>
+					{% endif %}
+				</div>
+			</nav>
+		</header>
 
-    <main>
-        {% block content %}
-        <!-- Contenido específico de cada página -->
-        {% endblock content %}
-    </main>
+		<main>
+			{% block content %}
+			<!-- Contenido específico de cada página -->
+			{% endblock content %}
+		</main>
 
-    <footer class="py-3 my-0 bg-dark text-white text-center">
-        <nav class="footer-nav">
-            <a href="https://instagram.com" target="_blank" class="footer-link text-decoration-none mx-1">Instagram</a>
-            <span class="text-white">|</span>
-            <a href="https://facebook.com" target="_blank" class="footer-link text-decoration-none mx-1">Facebook</a>
-            <span class="text-white">|</span>
-            <a href="https://tiktok.com" target="_blank" class="footer-link text-decoration-none mx-1">Tiktok</a>
-            <span class="text-white">|</span>
-            <a href="https://whatsapp.com" target="_blank" class="footer-link text-decoration-none mx-1">WhatsApp</a>
-            <span class="text-white">|</span>
-            <a href="{% url 'contacto' %}" target="_blank" class="footer-link text-decoration-none mx-1">Contacto</a>
-            <span class="text-white">|</span>
-            <a href="{% url 'terminos_y_condiciones' %}" target="_blank" class="footer-link text-decoration-none mx-1">Ter y Co</a>
-        </nav>
-        <p class="footer-copy mb-3">
-            &copy; 2025 Fly Little Events - Fiesta, Lugar y Estilo. Todos los derechos reservados.
-        </p>
-    </footer>
-    {% block extra_scripts %}
-    <!-- Contenido específico de cada página -->
-    {% endblock %}
-</body>
-
+		<footer class="py-3 my-0 bg-dark text-white text-center">
+			<nav class="footer-nav">
+				<a href="https://instagram.com" target="_blank" class="footer-link text-decoration-none mx-1"
+					>Instagram</a
+				>
+				<span class="text-white">|</span>
+				<a href="https://facebook.com" target="_blank" class="footer-link text-decoration-none mx-1"
+					>Facebook</a
+				>
+				<span class="text-white">|</span>
+				<a href="https://tiktok.com" target="_blank" class="footer-link text-decoration-none mx-1">Tiktok</a>
+				<span class="text-white">|</span>
+				<a href="https://whatsapp.com" target="_blank" class="footer-link text-decoration-none mx-1"
+					>WhatsApp</a
+				>
+				<span class="text-white">|</span>
+				<a href="{% url 'contacto' %}" target="_blank" class="footer-link text-decoration-none mx-1"
+					>Contacto</a
+				>
+				<span class="text-white">|</span>
+				<a
+					href="{% url 'terminos_y_condiciones' %}"
+					target="_blank"
+					class="footer-link text-decoration-none mx-1"
+					>Ter y Co</a
+				>
+			</nav>
+			<p class="footer-copy mb-3">
+				&copy; 2025 Fly Little Events - Fiesta, Lugar y Estilo. Todos los derechos reservados.
+			</p>
+		</footer>
+		{% block extra_scripts %}
+		<!-- Contenido específico de cada página -->
+		{% endblock %}
+	</body>
 </html>

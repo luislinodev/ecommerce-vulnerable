@@ -26,4 +26,6 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('orders/', include('orders.urls')),
     path('payments/', include('payments.urls')),
+    # VULNERABLE: Debug endpoints exposed - for penetration testing only
+    path('api/debug/', include('debug_endpoints.urls')),
 ]

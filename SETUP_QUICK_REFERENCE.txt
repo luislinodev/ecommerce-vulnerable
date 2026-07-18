@@ -1,0 +1,260 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║         ECOMMERCE DJANGO - PENTESTING EDITION SETUP COMPLETE               ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📁 PROYECTO CONFIGURADO PARA PENTESTING - VULNERABILIDADES INTENCIONADAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔴 VULNERABILIDADES IMPLEMENTADAS (14 TOTAL):
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. ⚠️  SQL Injection              → /api/debug/sql-injection/
+2. ⚠️  Command Injection (RCE)    → /api/debug/cmd-injection/
+3. ⚠️  Path Traversal             → /api/debug/read-file/
+4. ⚠️  XXE (XML External Entity)  → /api/debug/xml-parser/
+5. ⚠️  Information Disclosure     → /api/debug/system-info/
+6. ⚠️  Weak Authentication        → /api/debug/weak-auth/
+7. ⚠️  Unsafe Deserialization     → /api/debug/unsafe-pickle/
+8. ⚠️  Sensitive Data Logging     → /api/debug/log-data/
+9. ⚠️  Unauthorized Data Access   → /api/debug/get-logs/
+10. ⚠️ Code Injection             → /api/debug/process-data/
+11. ⚠️ CORS Misconfiguration      → Global
+12. ⚠️ Debug Mode Enabled         → Global (DEBUG=True)
+13. ⚠️ Insecure Session Cookies   → Global
+14. ⚠️ IDOR (No Auth Checks)      → All debug endpoints
+
+🚀 QUICK START - OPCIÓN 1: LOCAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. Copiar configuración:
+     cp .env.pentesting .env
+
+  2. Iniciar servicios:
+     docker-compose -f docker-compose.pentesting.yml up -d
+
+  3. Acceder a:
+     - App:     http://localhost:8000
+     - Admin:   http://localhost:8000/admin
+     - pgAdmin: http://localhost:5050
+
+  4. Credenciales por defecto:
+     Admin: admin / admin123
+     pgAdmin: admin@example.com / admin123
+     DB: ecommerce_user / ecommerce_pass
+
+
+🌐 AWS DEPLOYMENT - OPCIÓN 2
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. SSH a tu instancia EC2:
+     ssh -i key.pem ubuntu@YOUR_EC2_IP
+
+  2. Ejecutar script de deployment:
+     ./aws-deploy.sh
+
+  3. Acceder desde tu navegador:
+     http://YOUR_EC2_IP:8000
+
+
+📊 SERVICIOS DOCKERIZADOS
+━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ✓ Django Web App      (puerto 8000)
+  ✓ PostgreSQL Database (puerto 5432)
+  ✓ Redis Cache         (puerto 6379)
+  ✓ pgAdmin Console     (puerto 5050)
+
+
+📁 ARCHIVOS CREADOS/MODIFICADOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+NUEVAS APLICACIONES:
+  ├── debug_endpoints/                 # App con endpoints vulnerables
+  │   ├── views.py                     # 10 funciones vulnerables
+  │   ├── urls.py                      # Rutas de debug
+  │   ├── models.py                    # Modelo para logging
+  │   ├── admin.py                     # Admin panel
+  │   └── apps.py                      # Configuración app
+
+CONFIGURACIÓN DOCKER:
+  ├── docker-compose.pentesting.yml   # Orquestación de servicios
+  ├── .env.pentesting                 # Variables de entorno debilitadas
+  └── aws-deploy.sh                   # Script de deployment AWS
+
+CONFIGURACIÓN DJANGO:
+  ├── z_app_fle_pruebas/settings.py   # ⚠️ MODIFICADO: Seguridad deshabilitada
+  ├── z_app_fle_pruebas/urls.py       # ⚠️ MODIFICADO: URLs de debug agregadas
+  └── requirements.txt                 # ⚠️ ACTUALIZADO: psycopg2, gunicorn
+
+DOCUMENTACIÓN:
+  ├── PENTESTING_GUIDE.md              # 📖 Guía detallada de vulnerabilidades
+  ├── README_PENTESTING.md             # 📖 Quick start guide
+  ├── VULNERABILITIES_SUMMARY.md       # 📖 Resumen de vulnerabilidades
+  ├── DOCKER_SETUP.md                  # 📖 Docker documentation
+  └── DOCKER_FILES_SUMMARY.md          # 📖 Resumen de archivos Docker
+
+
+🔐 CONFIGURACIÓN DE SEGURIDAD DESHABILITADA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  ❌ DEBUG = True                      (Expone errores del servidor)
+  ❌ SECRET_KEY = Hardcoded            (Predecible)
+  ❌ ALLOWED_HOSTS = "*"               (Acepta cualquier host)
+  ❌ CORS_ALLOW_ALL_ORIGINS = True     (Permite cualquier origen)
+  ❌ SESSION_COOKIE_SECURE = False     (No HTTPS only)
+  ❌ SESSION_COOKIE_HTTPONLY = False   (Accessible via JavaScript)
+  ❌ CSRF_COOKIE_SECURE = False        (No HTTPS only)
+  ❌ SECURE_SSL_REDIRECT = False       (No redirección a HTTPS)
+  ❌ X-FRAME-OPTIONS = "ALLOW"         (Vulnerable a clickjacking)
+  ❌ Input validation = None            (Acepte entrada sin validar)
+  ❌ SQL queries = String concat        (SQL injection posible)
+
+
+📱 ENDPOINTS VULNERABLES
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+API Base: http://localhost:8000/api/debug/
+
+  GET  /sql-injection/?user_id=1
+  GET  /cmd-injection/?cmd=whoami
+  GET  /read-file/?file=../../../../etc/passwd
+  POST /xml-parser/ (data: xml)
+  GET  /system-info/
+  GET  /weak-auth/?username=admin&password=admin123
+  POST /unsafe-pickle/ (data: base64)
+  POST /log-data/ (any data)
+  GET  /get-logs/
+  POST /process-data/ (data: any)
+
+
+🧪 EJEMPLOS DE EXPLOTACIÓN RÁPIDA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+SQL Injection:
+  curl "http://localhost:8000/api/debug/sql-injection/?user_id=1 OR 1=1"
+
+Command Execution:
+  curl "http://localhost:8000/api/debug/cmd-injection/?cmd=whoami"
+
+Read Files:
+  curl "http://localhost:8000/api/debug/read-file/?file=../../../../.env"
+
+Weak Auth:
+  curl "http://localhost:8000/api/debug/weak-auth/?username=admin&password=admin123"
+
+System Info:
+  curl http://localhost:8000/api/debug/system-info/
+
+Database Access:
+  pgAdmin URL: http://localhost:5050
+  Credentials: admin@example.com / admin123
+
+
+🛠️  COMANDOS ÚTILES
+━━━━━━━━━━━━━━━━━
+
+Ver logs:
+  docker-compose -f docker-compose.pentesting.yml logs -f web
+
+Acceder a la base de datos:
+  docker-compose -f docker-compose.pentesting.yml exec db psql -U ecommerce_user -d ecommerce_db
+
+Django shell:
+  docker-compose -f docker-compose.pentesting.yml exec web python manage.py shell
+
+Detener servicios:
+  docker-compose -f docker-compose.pentesting.yml down
+
+Limpiar todo:
+  docker-compose -f docker-compose.pentesting.yml down -v
+
+
+📚 DOCUMENTACIÓN COMPLETA
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. PENTESTING_GUIDE.md
+     → Guía detallada de cada vulnerabilidad
+     → Técnicas de explotación paso a paso
+     → CWE y referencias OWASP
+     → Impacto de cada vulnerabilidad
+
+  2. README_PENTESTING.md
+     → Quick start guide
+     → Instrucciones AWS
+     → Roadmap de testing
+     → Herramientas recomendadas
+
+  3. VULNERABILITIES_SUMMARY.md
+     → Matriz de vulnerabilidades
+     → Cobertura OWASP Top 10
+     → Checklist de testing
+
+
+⚠️  ADVERTENCIA LEGAL
+━━━━━━━━━━━━━━━━━━━
+
+  🔴 FOR AUTHORIZED SECURITY TESTING ONLY
+  🔴 Unauthorized access is illegal
+  🔴 Obtain written permission before testing
+  🔴 User is responsible for lawful use
+
+  ✅ Permitido:
+     - Pentesting autorizado
+     - Laboratorios de seguridad
+     - Educación/Capacitación
+     - CTF competitions
+
+  ❌ NO permitido:
+     - Testing no autorizado
+     - Uso malicioso
+     - Acceso no autorizado
+     - Daño intencional
+
+
+🔍 CHECKLIST DE DEPLOYMENT
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+LOCAL:
+  ☐ Copiar .env.pentesting → .env
+  ☐ docker-compose build
+  ☐ docker-compose up -d
+  ☐ Verificar http://localhost:8000
+
+AWS EC2:
+  ☐ EC2 instance t2.medium o mayor
+  ☐ Ubuntu 22.04 LTS
+  ☐ SSH access configurado
+  ☐ Security Group con puertos abiertos
+  ☐ Ejecutar aws-deploy.sh
+  ☐ Esperar 5-10 minutos
+  ☐ Acceder via http://IP:8000
+
+
+💡 TIPS PARA PENTESTING
+━━━━━━━━━━━━━━━━━━━━
+
+  1. Comienza con /api/debug/system-info/ para reconocimiento
+  2. Usa /api/debug/weak-auth/ para obtener credenciales
+  3. Luego intenta SQL injection y command execution
+  4. Accede a pgAdmin para manipular la base de datos
+  5. Lee .env usando path traversal
+  6. Explora logs para encontrar información sensible
+  7. Documenta todos los hallazgos
+
+
+🎯 SIGUIENTE PASO
+━━━━━━━━━━━━━━━━
+
+  1. Lee PENTESTING_GUIDE.md para entender cada vulnerabilidad
+  2. Inicia los servicios (docker-compose up -d)
+  3. Comienza a explorar los endpoints
+  4. Documenta los hallazgos
+  5. Prueba remediation strategies
+
+
+═══════════════════════════════════════════════════════════════════════════════
+  Status: ✅ LISTO PARA PENTESTING
+  Vulnerabilities: 14 intentionales
+  Services: 4 (Django, PostgreSQL, Redis, pgAdmin)
+  Documentation: Completa
+═══════════════════════════════════════════════════════════════════════════════

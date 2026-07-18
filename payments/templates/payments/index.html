@@ -1,58 +1,40 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Example Checkout izipay</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="https://sandbox-checkout.izipay.pe/payments/v1/js/index.js"></script>
-    <!--<script src="sdk.js"></script>-->
-  </head>
-  <body id="root">
-    <header>
-      <!-- Header content here -->
-    </header>
-    <div class="checkout-container">
-      <div class="left-column">
-        <section class="customer-details">
-          <h2>Billing</h2>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-        </section>
-        <section class="billing-details">
-          <h2>Shipping</h2>
-          <div class="skeleton"></div>
-          <div class="skeleton"></div>
-        </section>
-      </div>
-      <div class="right-column">
-        <section class="purchase-summary flex-column">
-          <h2>Summary Details</h2>
-          <div class="skeleton-sumary"></div>
-          <div class="skeleton-sumary"></div>
-          <form action="">
-            <button id="btnPayNow" class="buttonPay" type="button" disabled>
-              loading...
-            </button>
-            <pre id="payment-message"></pre>
-          </form>
-        </section>
-        <section class="payment-form">
-          <div class="banner">
-            <h2>Banner 1</h2>
-          </div>
-          <div id="your-iframe-payment"></div>
-          <div class="banner">
-            <h2>Banner 2</h2>
-          </div>
-        </section>
-      </div>
-    </div>
-<script type="module" src="{% static 'payments/js/pay.js' %}"></script>
-<link rel="stylesheet" href="{% static 'payments/css/styles.css' %}" />
-  </body>
-</html>
+{% extends 'base.html' %} {% block title %}Pago{% endblock %} {% block content %}
+
+<div class="container py-5">
+	<div class="row justify-content-center">
+		<div class="col-lg-6">
+			<div class="card shadow">
+				<div class="card-header bg-success text-white">Pago del pedido</div>
+
+				<div class="card-body text-center">
+					<div class="display-1 mb-3">💳</div>
+
+					<h3 class="fw-bold">Simulación de pago</h3>
+
+					<p class="text-muted">Para esta demostración el pago será simulado.</p>
+
+					<hr />
+
+					<h4 class="text-success">Total a pagar</h4>
+
+					<h2 class="fw-bold">S/ {{ order.total|floatformat:2 }}</h2>
+
+					<div class="alert alert-info mt-4">
+						<strong>Modo demostración</strong><br />
+
+						Al presionar el botón se registrará el pedido como
+						<strong>Pagado</strong>.
+					</div>
+
+					<form method="post">
+						{% csrf_token %}
+
+						<button type="submit" class="btn btn-success btn-lg w-100">Confirmar pago</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

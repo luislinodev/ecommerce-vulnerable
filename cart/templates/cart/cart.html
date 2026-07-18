@@ -1,50 +1,104 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'base.html' %} {% load static %} {% block title %}Carrito de compras{% endblock %} {% block content %}
 
-{% block content %}
-<h2>🛒 Tu carrito de alquiler</h2>
+<div class="container py-5">
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<h2 class="fw-bold mb-0">🛒 Tu carrito de alquiler</h2>
 
-{% if cart.items.all %}
-  <table>
-    <thead>
-      <tr>
-        <th>Producto</th>
-        <th>Precio</th>
-        <th>Cantidad</th>
-        <th>Total</th>
-        <th>Acción</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in cart.items.all %}
-        <tr>
-          <td>{{ item.product.name }}</td>
-          <td>S/ {{ item.product.price }}</td>
-          <td>
-            <form method="POST" action="{% url 'update_cart_item' item.id %}">
-              {% csrf_token %}
-              <input type="number" name="quantity" value="{{ item.quantity }}" min="1">
-              <button type="submit">Actualizar</button>
-            </form>
-          </td>
-          <td>S/ {{ item.total_price }}</td>
-          <td>
-            <form method="POST" action="{% url 'remove_from_cart' item.id %}">
-              {% csrf_token %}
-              <button type="submit">❌ Eliminar</button>
-            </form>
-          </td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+		<a href="{% url 'products' %}" class="btn btn-outline-secondary"> ← Seguir comprando </a>
+	</div>
 
-  <p><strong>Subtotal:</strong> S/ {{ cart.total_price }}</p>
-  <a href="{% url 'checkout' %}" class="btn btn-primary">Continuar al checkout</a>
-  <a href="{% url 'products' %}">Volver al catálogo</a>
+	{% if cart.items.all %}
 
-{% else %}
-  <p>Tu carrito está vacío.</p>
-  <a href="{% url 'products' %}">Volver al catálogo</a>
-{% endif %}
+	<div class="card shadow-sm">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-hover align-middle">
+					<thead class="table-dark">
+						<tr>
+							<th>Producto</th>
+							<th>Precio</th>
+							<th style="width: 170px">Cantidad</th>
+							<th>Total</th>
+							<th class="text-center">Acción</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for item in cart.items.all %}
+
+						<tr>
+							<td>
+								<strong>{{ item.product.name }}</strong>
+							</td>
+
+							<td>S/ {{ item.product.price }}</td>
+
+							<td>
+								<form method="POST" action="{% url 'update_cart_item' item.id %}" class="d-flex gap-2">
+									{% csrf_token %}
+
+									<input
+										type="number"
+										name="quantity"
+										value="{{ item.quantity }}"
+										min="1"
+										class="form-control form-control-sm"
+									/>
+
+									<button type="submit" class="btn btn-outline-primary btn-sm">Actualizar</button>
+								</form>
+							</td>
+
+							<td>
+								<strong class="text-success"> S/ {{ item.total_price }} </strong>
+							</td>
+
+							<td class="text-center">
+								<form method="POST" action="{% url 'remove_from_cart' item.id %}">
+									{% csrf_token %}
+
+									<button class="btn btn-outline-danger btn-sm" type="submit">Eliminar</button>
+								</form>
+							</td>
+						</tr>
+
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="card shadow-sm mt-4">
+		<div class="card-body">
+			<div class="d-flex justify-content-between align-items-center flex-wrap">
+				<h4 class="mb-0">
+					Subtotal:
+					<span class="text-success fw-bold"> S/ {{ cart.total_price }} </span>
+				</h4>
+
+				<div class="mt-3 mt-md-0">
+					<a href="{% url 'products' %}" class="btn btn-outline-secondary"> Seguir comprando </a>
+
+					<a href="{% url 'checkout' %}" class="btn btn-primary"> Continuar al checkout </a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% else %}
+
+	<div class="card shadow-sm">
+		<div class="card-body text-center py-5">
+			<h3 class="mb-3">🛒 Tu carrito está vacío</h3>
+
+			<p class="text-muted">Aún no has agregado productos para tu evento.</p>
+
+			<a href="{% url 'products' %}" class="btn btn-primary"> Explorar catálogo </a>
+		</div>
+	</div>
+
+	{% endif %}
+</div>
+
 {% endblock %}
